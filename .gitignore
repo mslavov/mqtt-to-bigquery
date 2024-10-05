@@ -16,3 +16,5 @@ dev/var/
 var/
 dist/
 test.py
+.venv
+service_account.json

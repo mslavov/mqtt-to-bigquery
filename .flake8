@@ -1,0 +1,15 @@
+[flake8]
+
+jobs = 4
+max-line-length = 120
+max-args-length = 7
+exclude = .venv, .history
+max-complexity = 10
+max-function-length = 160
+max-returns-amount = 5
+application-import-names = main
+import-order-style = pep8
+ignore = I101, W503, S311, CFQ002, C901
+import-order = isort
+plugins = isort
+inline-quotes = double

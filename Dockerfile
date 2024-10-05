@@ -1,12 +1,15 @@
-FROM google/cloud-sdk
-MAINTAINER elliswu<ellis.w@inwinstack.com>
+FROM python:3.11-slim
 
-RUN apt-get install python-setuptools
-RUN easy_install pip
-RUN pip install paho-mqtt
-RUN pip install --upgrade google-api-python-client
-COPY mqtt_to_bigquery.py /mqtt_to_bq/
-COPY mqtt.conf /mqtt_to_bq/
-WORKDIR mqtt_to_bq
+WORKDIR /app
 
-ENTRYPOINT ["python", "/mqtt_to_bq/mqtt_to_bigquery.py"]
+COPY ./requirements.txt /app/requirements.txt
+
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+COPY ./main.py /app/
+
+COPY service_account.json /app/
+
+ENV PYTHONPATH="/app:${PYTHONPATH}"
+
+CMD ["python", "main.py"]

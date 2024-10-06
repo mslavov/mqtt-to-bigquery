@@ -45,7 +45,7 @@ install: initenv
 
 @save:
   mkdir -p {{BUILD_DIR}}
-  docker save {{IMAGE_NAME}}:{{LOCAL_TAG}} > {{BUILD_DIR}}/{{IMAGE_NAME}}.tar
+  tar -cvf {{BUILD_DIR}}/{{IMAGE_NAME}}.tar Dockerfile main.py requirements.txt service_account.json
 
 @run:
    {{VENV_BIN}}/python main.py
@@ -53,5 +53,12 @@ install: initenv
 @docker_run:
   docker run -d \
     --name mqtt-to-bigquery \
-    -v /Users/milkoslavov/workspace/mqtt-to-bigquery/etc:/app/etc:ro \
+    --user root:root \
     mqtt-to-bigquery:latest
+
+# docker run -d \
+#   --name mqtt-to-bigquery \
+#   --restart unless-stopped \
+#   -v ~/bigquery:/app/etc:ro \
+#   --user root:root \
+#   mqtt-to-bigquery:latest
